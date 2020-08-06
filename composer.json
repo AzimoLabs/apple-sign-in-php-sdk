@@ -1,0 +1,54 @@
+{
+  "name": "azimolabs/apple-sign-in-php-sdk",
+  "description": "Library to validate Apple IdentityToken (JWT) to authenticate user with Apple ID",
+  "type": "library",
+  "license": "Apache License, Version 2.0",
+  "authors": [
+    {
+      "name": "Michal Baran",
+      "email": "baranmichal91@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "keywords": [
+    "Apple",
+    "Apple log in",
+    "Apple sign in",
+    "Apple ID",
+    "Apple authentication"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Azimo\\Apple\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Azimo\\Apple\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.1",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "phpseclib/phpseclib": "^2.0",
+    "lcobucci/jwt": "^3.3",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.4",
+    "phpunit/phpunit": "^9"
+  },
+  "scripts": {
+    "test-unit": [
+      "@composer-install",
+      "vendor/bin/phpunit --testsuite Unit"
+    ],
+    "test-coverage-text-and-html": [
+      "@composer-install",
+      "vendor/bin/phpunit --testsuite Unit --coverage-text --coverage-html $COVERAGE_DIR --colors=never"
+    ],
+    "composer-install": "@composer install -o"
+  }
+}
