@@ -1,6 +1,6 @@
 {
   "name": "azimolabs/apple-sign-in-php-sdk",
-  "description": "Library to validate Apple IdentityToken (JWT) to authenticate user with Apple ID",
+  "description": "Library to verify and validate Apple IdentityToken and authenticate a user with Apple ID.",
   "type": "library",
   "license": "MIT",
   "authors": [
