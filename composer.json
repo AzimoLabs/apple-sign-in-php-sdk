@@ -1,12 +1,17 @@
 {
-  "name": "azimolabs/apple-sign-in-php-sdk",
-  "description": "Library to verify and validate Apple IdentityToken and authenticate a user with Apple ID.",
+  "name": "bastienu/apple-sign-in-php-sdk",
+  "description": "Library to verify and validate Apple IdentityToken and authenticate a user with Apple ID. Forked from AzimoLabs/apple-sign-in-php-sdk.",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "Michal Baran",
       "email": "baranmichal91@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Bastien Uranga",
+      "email": "bastien@to-schuss.fr",
       "role": "Developer"
     }
   ],
