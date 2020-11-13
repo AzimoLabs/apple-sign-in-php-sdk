@@ -34,7 +34,7 @@
     "ext-openssl": "*",
     "phpseclib/phpseclib": "^2.0",
     "lcobucci/jwt": "^3.3",
-    "guzzlehttp/guzzle": "^6.0"
+    "guzzlehttp/guzzle": "^6.0|^7.0"
   },
   "require-dev": {
     "mockery/mockery": "^1.4",
