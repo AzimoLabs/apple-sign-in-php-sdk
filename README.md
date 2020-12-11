@@ -69,6 +69,10 @@ Time: 00:00.962, Memory: 8.00 MB
 OK (1 test, 1 assertion)
 ```
 
+## Todo
+-[ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported in [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
+
+
 ## Miscellaneous
 * [JSON web token](https://jwt.io/)
 * [Sign in with Apple overwiew](https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple)
