@@ -70,8 +70,8 @@ OK (1 test, 1 assertion)
 ```
 
 ## Todo
--[ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported in [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
-
+It is welcome to open a pull request with a fix of any issue:
+-[ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported in: [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
 
 ## Miscellaneous
 * [JSON web token](https://jwt.io/)
