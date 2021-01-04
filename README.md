@@ -73,6 +73,8 @@ OK (1 test, 1 assertion)
 It is welcome to open a pull request with a fix of any issue:
 
 - [ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported in: [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
+- [ ] Make library compatible with PHP `7.4.3`. Reported in [Uncaught JsonException: Malformed UTF-8 characters](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/4)
+- [ ] Make library compatible with PHP `8.0.0`
 
 ## Miscellaneous
 * [JSON web token](https://jwt.io/)
