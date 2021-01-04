@@ -5,7 +5,7 @@
 ## Installation
 Recommended and easiest way to installing library is through [Composer](https://getcomposer.org/).
  
-`composer require azimolabs/apple-sign-in-php-sdk:1.1.0`
+`composer require azimolabs/apple-sign-in-php-sdk:1.2.0`
 
 ## Requirements
 * PHP 7.1+
