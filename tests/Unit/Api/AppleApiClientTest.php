@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Api;
+namespace Azimo\Apple\Tests\Unit\Api;
 
 use Azimo\Apple\Api;
 use Azimo\Apple\Api\Exception\PublicKeyFetchingFailedException;

@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Auth\Service;
+namespace Azimo\Apple\Tests\Unit\Auth\Service;
 
-use Lcobucci\JWT\Token;
-use Mockery;
 use Azimo\Apple\Auth\Exception;
 use Azimo\Apple\Auth\Factory\AppleJwtStructFactory;
 use Azimo\Apple\Auth\Jwt;
 use Azimo\Apple\Auth\Service\AppleJwtFetchingService;
 use Azimo\Apple\Auth\Struct\JwtPayload;
+use Lcobucci\JWT\Token;
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class AppleJwtFetchingServiceTest extends MockeryTestCase

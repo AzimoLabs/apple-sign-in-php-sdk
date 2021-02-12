@@ -8,11 +8,14 @@ class CryptographicAlgorithmEnum
 
     public const KID_EXAUNML = 'eXaunmL';
 
+    public const KID_YUYXOY = 'YuyXoY';
+
     public static function supportedAlgorithms(): array
     {
         return [
             self::KID_86D88KF,
             self::KID_EXAUNML,
+            self::KID_YUYXOY,
         ];
     }
 

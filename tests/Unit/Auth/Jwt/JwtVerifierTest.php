@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Auth\Jwt;
+namespace Azimo\Apple\Tests\Unit\Auth\Jwt;
 
 use Azimo\Apple\APi;
 use Azimo\Apple\Auth\Exception;
@@ -95,7 +95,7 @@ class JwtVerifierTest extends MockeryTestCase
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage(
-            'Cryptographic algorithm `foo` is not supported. Supported algorithms: `86D88Kf,eXaunmL`'
+            'Cryptographic algorithm `foo` is not supported. Supported algorithms: `86D88Kf,eXaunmL,YuyXoY`'
         );
         $this->jwtVerifier->verify($this->jwtMock);
     }

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Auth\Jwt;
+namespace Azimo\Apple\Tests\Unit\Auth\Jwt;
 
+use Azimo\Apple\Auth\Exception\InvalidJwtException;
+use Azimo\Apple\Auth\Jwt\JwtParser;
 use InvalidArgumentException;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Mockery;
-use Azimo\Apple\Auth\Exception\InvalidJwtException;
-use Azimo\Apple\Auth\Jwt\JwtParser;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use RuntimeException;
 

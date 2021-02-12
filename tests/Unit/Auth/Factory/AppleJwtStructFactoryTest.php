@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Auth\Factory;
+namespace Azimo\Apple\Tests\Unit\Auth\Factory;
 
-use Lcobucci\JWT\Claim\EqualsTo;
-use Lcobucci\JWT\Token;
 use Azimo\Apple\Auth\Exception\MissingClaimException;
 use Azimo\Apple\Auth\Factory\AppleJwtStructFactory;
 use Azimo\Apple\Auth\Struct\JwtPayload;
+use Lcobucci\JWT\Claim\EqualsTo;
+use Lcobucci\JWT\Token;
 
 class AppleJwtStructFactoryTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {

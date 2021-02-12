@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Auth\Jwt;
+namespace Azimo\Apple\Tests\Unit\Auth\Jwt;
 
 use Azimo\Apple\Auth\Jwt\JwtValidator;
 use Lcobucci\JWT;
