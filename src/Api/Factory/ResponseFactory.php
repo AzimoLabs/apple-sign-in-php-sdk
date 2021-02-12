@@ -16,16 +16,20 @@ class ResponseFactory
 
         $authKeys = [];
         foreach ($responseBody['keys'] as $authKey) {
-            $this->validateAuthKey($authKey);
+            try {
+                $this->validateAuthKey($authKey);
 
-            $authKeys[$authKey['kid']] = new JsonWebKeySet(
-                $authKey['kty'],
-                $authKey['kid'],
-                $authKey['use'],
-                $authKey['alg'],
-                $authKey['n'],
-                $authKey['e']
-            );
+                $authKeys[$authKey['kid']] = new JsonWebKeySet(
+                    $authKey['kty'],
+                    $authKey['kid'],
+                    $authKey['use'],
+                    $authKey['alg'],
+                    $authKey['n'],
+                    $authKey['e']
+                );
+            } catch (UnsupportedCryptographicAlgorithmException $e) {
+                continue;
+            }
         }
 
         return new JsonWebKeySetCollection($authKeys);

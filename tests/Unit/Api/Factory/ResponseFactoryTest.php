@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Azimo\Apple\Api\Factory;
+namespace Azimo\Apple\Tests\Unit\Api\Factory;
 
 use Azimo\Apple\Api;
 use Azimo\Apple\Api\Exception\ResponseValidationException;
-use Azimo\Apple\Api\Exception\UnsupportedCryptographicAlgorithmException;
 use Azimo\Apple\Api\Factory\ResponseFactory;
+use Azimo\Apple\Api\Response\JsonWebKeySetCollection;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class ResponseFactoryTest extends MockeryTestCase
@@ -116,25 +116,24 @@ class ResponseFactoryTest extends MockeryTestCase
         ];
     }
 
-    public function testIfCreateFromArrayThrowsUnsupportedCryptographicAlgorithmExceptionWhenKidIsNotSupported(): void
+    public function testIfCreateFromArraySkipsCreatingJsonWebKeySetWhenKidIsNotSupported(): void
     {
-        $this->expectException(UnsupportedCryptographicAlgorithmException::class);
-        $this->expectExceptionMessage(
-            'Cryptographic algorithm `bar` is not supported. Supported algorithms: `86D88Kf,eXaunmL`'
-        );
-        $this->responseFactory->createFromArray(
-            [
-                'keys' => [
-                    [
-                        'kty' => 'RSA',
-                        'kid' => 'bar',
-                        'use' => 'sig',
-                        'alg' => 'RS256',
-                        'n'   => 'foo',
-                        'e'   => 'AQAB',
+        self::assertEquals(
+            new JsonWebKeySetCollection([]),
+            $this->responseFactory->createFromArray(
+                [
+                    'keys' => [
+                        [
+                            'kty' => 'RSA',
+                            'kid' => 'bar',
+                            'use' => 'sig',
+                            'alg' => 'RS256',
+                            'n'   => 'foo',
+                            'e'   => 'AQAB',
+                        ],
                     ],
-                ],
-            ]
+                ]
+            )
         );
     }
 
@@ -161,7 +160,7 @@ class ResponseFactoryTest extends MockeryTestCase
             ],
         ];
 
-        $this->assertEquals(
+        self::assertEquals(
             new Api\Response\JsonWebKeySetCollection(
                 [
                     '86D88Kf' => new Api\Response\JsonWebKeySet(
