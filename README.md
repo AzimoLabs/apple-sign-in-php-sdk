@@ -50,7 +50,9 @@ $appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
     new Auth\Factory\AppleJwtStructFactory()
 );
 
-$appleJwtFetchingService->getJwtPayload('your.identity.token');
+$appleJwtFetchingService->getJwtPayload('your.identity.token.from.access_token');
+
+$appleJwtFetchingService->getRefreshJwtPayload('your.identity.token.from.refresh_token');
 ```
 
 If you don't want to copy-paste above code you can paste freshly generated `identityToken` in `tests/E2e/Auth/AppleJwtFetchingServiceTest.php:53`
