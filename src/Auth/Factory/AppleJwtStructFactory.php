@@ -4,6 +4,7 @@ namespace Azimo\Apple\Auth\Factory;
 
 use Azimo\Apple\Auth\Exception\MissingClaimException;
 use Azimo\Apple\Auth\Struct\JwtPayload;
+use Azimo\Apple\Auth\Struct\JwtRefreshIdTokenPayload;
 use Lcobucci\JWT\Token;
 use OutOfBoundsException;
 
@@ -27,7 +28,32 @@ class AppleJwtStructFactory
                 (string) $token->getClaim('email_verified', 'false') === 'true',
                 // For some reason Apple API returns boolean flag as a string
                 (string) $token->getClaim('is_private_email', 'false') === 'true',
-                $token->getClaim('auth_time'),
+                $token->getClaim('auth_time',$token->getClaim('iat')),
+                $token->getClaim('nonce_supported', false)
+            );
+        } catch (OutOfBoundsException $exception) {
+            throw new MissingClaimException($exception->getMessage(), $exception->getCode(), $exception);
+        }
+    }
+
+    /**
+     * @throws MissingClaimException
+     */
+    public function createJwtPayloadFromRefreshIdToken(Token $token): JwtRefreshIdTokenPayload
+    {
+        try {
+            return new JwtRefreshIdTokenPayload(
+                $token->getClaim('iss'),
+                $token->getClaim('aud'),
+                $token->getClaim('exp'),
+                $token->getClaim('iat'),
+                $token->getClaim('sub'),
+                $token->getClaim('at_hash'),
+                $token->getClaim('email', ''),
+                // For some reason Apple API returns boolean flag as a string
+                (string) $token->getClaim('email_verified', 'false') === 'true',
+                // For some reason Apple API returns boolean flag as a string
+                (string) $token->getClaim('is_private_email', 'false') === 'true',
                 $token->getClaim('nonce_supported', false)
             );
         } catch (OutOfBoundsException $exception) {
