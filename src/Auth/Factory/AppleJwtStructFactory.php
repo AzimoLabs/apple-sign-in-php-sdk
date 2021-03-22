@@ -28,7 +28,7 @@ class AppleJwtStructFactory
                 (string) $token->getClaim('email_verified', 'false') === 'true',
                 // For some reason Apple API returns boolean flag as a string
                 (string) $token->getClaim('is_private_email', 'false') === 'true',
-                $token->getClaim('auth_time',$token->getClaim('iat')),
+                $token->getClaim('auth_time'),
                 $token->getClaim('nonce_supported', false)
             );
         } catch (OutOfBoundsException $exception) {
