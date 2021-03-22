@@ -49,10 +49,13 @@ $appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
     new Auth\Jwt\JwtValidator($validationData),
     new Auth\Factory\AppleJwtStructFactory()
 );
+ // for identityToken generated from access_token
+$appleJwtFetchingService->getJwtPayload('your.identity.token.from.access_token');
 
-$appleJwtFetchingService->getJwtPayload('your.identity.token');
+// for identityToken generated from refresh_token
+$appleJwtFetchingService->getRefreshJwtPayload('your.identity.token.from.refresh_token');
 ```
-
+For identityToken generated from _access_token_;
 If you don't want to copy-paste above code you can paste freshly generated `identityToken` in `tests/E2e/Auth/AppleJwtFetchingServiceTest.php:53`
 and run tests with simple command `php vendor/bin/phpunit tests/E2e`.
 
@@ -65,6 +68,23 @@ Random seed:   1594414420
 .                                                                   1 / 1 (100%)
 
 Time: 00:00.962, Memory: 8.00 MB
+
+OK (1 test, 1 assertion)
+```
+
+For identityToken generated from _refresh_token_;
+If you don't want to copy-paste above code you can paste freshly generated `identityToken` in `tests/E2eRefreshToken/Auth/AppleJwtFetchingServiceTest.php:53`
+and run tests with simple command `php "vendor/phpunit/phpunit/phpunit" tests/E2eRefreshToken`.
+
+```shell script
+$ php "vendor/phpunit/phpunit/phpunit" tests/E2eRefreshToken
+PHPUnit 9.2.5 by Sebastian Bergmann and contributors.
+
+Random seed:   1616417435
+
+.                                                                   1 / 1 (100%)
+
+Time: 00:01.284, Memory: 10.00 MB
 
 OK (1 test, 1 assertion)
 ```
