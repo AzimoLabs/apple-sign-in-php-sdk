@@ -6,6 +6,7 @@ use Azimo\Apple\Auth\Exception;
 use Azimo\Apple\Auth\Factory\AppleJwtStructFactory;
 use Azimo\Apple\Auth\Jwt;
 use Azimo\Apple\Auth\Struct\JwtPayload;
+use Azimo\Apple\Auth\Struct\JwtRefreshIdTokenPayload;
 
 class AppleJwtFetchingService
 {
@@ -68,5 +69,25 @@ class AppleJwtFetchingService
         }
 
         return $this->factory->createJwtPayloadFromToken($parsedJwt);
+    }
+
+    public function getRefreshJwtPayload(string $jwt): JwtRefreshIdTokenPayload
+    {
+        $parsedJwt = $this->parser->parse($jwt);
+
+        if (!$this->verifier->verify($parsedJwt)) {
+            throw new Exception\VerificationFailedException(
+                sprintf(
+                    'Verification of given `%s` token failed. '
+                    . 'Possibly incorrect public key used or token is malformed.',
+                    $jwt
+                )
+            );
+        }
+        if (!$this->validator->isValid($parsedJwt)) {
+            throw new Exception\ValidationFailedException('Validation of given token failed. Possibly token expired.');
+        }
+
+        return $this->factory->createJwtPayloadFromRefreshIdToken($parsedJwt);
     }
 }
