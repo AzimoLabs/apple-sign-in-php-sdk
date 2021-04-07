@@ -82,4 +82,4 @@ It is welcome to open a pull request with a fix of any issue:
 * [How backend token verification works](https://sarunw.com/posts/sign-in-with-apple-3/)
 
 # Towards financial services available to all
-We’re working throughout the company to create faster, cheaper, and more available financial services all over the world, and here are some of the techniques that we’re utilizing. There’s still a long way ahead of us, and if you’d like to be part of that journey, check out our [careers page](bit.ly/3vajnu6).
+We’re working throughout the company to create faster, cheaper, and more available financial services all over the world, and here are some of the techniques that we’re utilizing. There’s still a long way ahead of us, and if you’d like to be part of that journey, check out our [careers page](https://bit.ly/3vajnu6).
