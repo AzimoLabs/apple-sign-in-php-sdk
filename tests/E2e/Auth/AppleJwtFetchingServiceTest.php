@@ -9,7 +9,6 @@ use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\ValidationData;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use phpseclib\Crypt\RSA;
 
 class AppleJwtFetchingServiceTest extends MockeryTestCase
 {
@@ -39,7 +38,6 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
                     ),
                     new Api\Factory\ResponseFactory()
                 ),
-                new RSA(),
                 new Sha256()
             ),
             new Auth\Jwt\JwtValidator($validationData),
@@ -50,7 +48,7 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
     public function testIfGetJwtPayloadReturnExpectedJwtPayload(): void
     {
         $jwtPayload = $this->appleJwtFetchingService->getJwtPayload(
-            'eyJraWQiOiJlWGF1bm1MIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmMuYXppbW8uc3RhZ2UiLCJleHAiOjE2MTMyMTIzNjIsImlhdCI6MTYxMzEyNTk2Miwic3ViIjoiMDAwNTYwLjE4MDM2YjI3MmI5MjRkYTg5ZWY3N2RjNDYyNDhkODRhLjA3MjEiLCJjX2hhc2giOiJ4SGpPV24zblpUa3JTS1dRSGRRZmFBIiwiYXV0aF90aW1lIjoxNjEzMTI1OTYyLCJub25jZV9zdXBwb3J0ZWQiOnRydWV9.YShVEmo-QGDnMxU_M9wkwOFcqC5vqvMvXDDlZvQ1VO-WA74_CYOBMbdMKvvTWWGgpvnykNVduvixuFkv_3vpRo2llydwllmVJtMxshTx-kIDmBnInP03lP2jdaDSonDmm0UiXtGEmOqqeFiT_sgUn5o0jfUUreNrXMBM9eLpzEDcjyMW_u3qBhds2SQlsJew6Hd9w16lMTngrJYrMq2H6gogWaCqoXdXexJGdQYfBiX2J14XEgGAyW_7ZupFKT0YCb_OwBQubocsdKbRiw7KlHZVH4vcCaz6e5as9Z-g9V8o4eOFMhuYaugmuGdpBruulyOgDgdPYmR3JCMdPeLFdA'
+            'eyJraWQiOiJZdXlYb1kiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmMuYXppbW8uc3RhZ2UiLCJleHAiOjE2MjQ3MDE3MzUsImlhdCI6MTYyNDYxNTMzNSwic3ViIjoiMDAwNTYwLjE4MDM2YjI3MmI5MjRkYTg5ZWY3N2RjNDYyNDhkODRhLjA3MjEiLCJjX2hhc2giOiJzQWhpVmFTYXlKNlRSVFdoWFMxdGFBIiwiYXV0aF90aW1lIjoxNjI0NjE1MzM1LCJub25jZV9zdXBwb3J0ZWQiOnRydWV9.osvYd0hNosZKWD85-CJmyNXivFgWhrNCOdOpiB7VuYsRRMFn5cxZCFg8fBEiaekeVtHXMsilxoE7FUKfyZ14smi7QNk87qAcZ_ivF52x_l6hkR0YCANdbcIrJqFJQ2GwL1DHN4hE628qEZBf_dj5SdTcixHM-8X3ibWDt4irzBACiXqWvbaeRqFdhwJl-yG_of-9zjYg98-Hlk18MphxCgqmVhFXlOi_al4sVHdqZtUjMgGyqszmoIURgU9lOXXDGKZ3LyBU7vXJIZY4FjcXsOtJ4PO8N2LD_2EN2hXRdiUV_A86Dki_O9w17ZjYxlLwpsxRm_m3SzTVptgL0DL_7Q'
         );
 
         self::assertInstanceOf(Auth\Struct\JwtPayload::class, $jwtPayload);
