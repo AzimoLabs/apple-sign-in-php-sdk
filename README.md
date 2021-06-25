@@ -46,7 +46,7 @@ $validationData = new ValidationData();
 $validationData->setIssuer('https://appleid.apple.com');
 $validationData->setAudience('com.azimo');
 
-$appleJwtFetchingService new Auth\Service\AppleJwtFetchingService(
+$appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
             new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())),
             new Auth\Jwt\JwtVerifier(
                 new Api\AppleApiClient(
@@ -97,7 +97,7 @@ OK (1 test, 1 assertion)
 It is welcome to open a pull request with a fix of any issue:
 
 - [x] Upgrade `phpseclib/phpseclib` to version `3.0.7`
-- [ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported
+- [x] Upgrade `lcobucci/jwt` to version `4.x`. Reported
   in: [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
 - [x] Make library compatible with PHP `7.4.3`. Reported
   in [Uncaught JsonException: Malformed UTF-8 characters](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/4)
