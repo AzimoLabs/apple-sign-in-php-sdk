@@ -9,8 +9,7 @@ use Lcobucci\JWT;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use OutOfBoundsException;
-use phpseclib\Crypt\RSA;
-use phpseclib\Math\BigInteger;
+use phpseclib3\Math\BigInteger;
 
 class JwtVerifierTest extends MockeryTestCase
 {
@@ -18,11 +17,6 @@ class JwtVerifierTest extends MockeryTestCase
      * @var APi\AppleApiClient|Mockery\MockInterface
      */
     private $appleApiClient;
-
-    /**
-     * @var RSA|Mockery\MockInterface
-     */
-    private $rsaMock;
 
     /**
      * @var JWT\Validator|Mockery\MockInterface
@@ -45,13 +39,11 @@ class JwtVerifierTest extends MockeryTestCase
 
         $this->validatorMock = Mockery::mock(JWT\Validator::class);
         $this->appleApiClient = Mockery::mock(Api\AppleApiClientInterface::class);
-        $this->rsaMock = Mockery::mock(RSA::class);
         $this->jwtMock = Mockery::mock(JWT\Token::class);
 
         $this->jwtVerifier = new JwtVerifier(
             $this->appleApiClient,
             $this->validatorMock,
-            $this->rsaMock,
             new JWT\Signer\Rsa\Sha256()
         );
     }
@@ -146,25 +138,6 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
-        $this->rsaMock->shouldReceive('loadKey')
-            ->once()
-            ->with(
-                Mockery::on(
-                    function (array $argument) {
-                        $this->assertArrayHasKey('exponent', $argument);
-                        $this->assertArrayHasKey('modulus', $argument);
-                        $this->assertInstanceOf(BigInteger::class, $argument['exponent']);
-                        $this->assertInstanceOf(BigInteger::class, $argument['modulus']);
-
-                        return true;
-                    }
-                )
-            );
-        $this->rsaMock->shouldReceive('getPublicKey')
-            ->withNoArgs()
-            ->once()
-            ->andReturn('publicKey');
-
         $this->validatorMock->shouldReceive('validate')
             ->once()
             ->with($this->jwtMock, JWT\Validation\Constraint\SignedWith::class)
@@ -197,25 +170,6 @@ class JwtVerifierTest extends MockeryTestCase
             ->once()
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
-
-        $this->rsaMock->shouldReceive('loadKey')
-            ->once()
-            ->with(
-                Mockery::on(
-                    function (array $argument) {
-                        $this->assertArrayHasKey('exponent', $argument);
-                        $this->assertArrayHasKey('modulus', $argument);
-                        $this->assertInstanceOf(BigInteger::class, $argument['exponent']);
-                        $this->assertInstanceOf(BigInteger::class, $argument['modulus']);
-
-                        return true;
-                    }
-                )
-            );
-        $this->rsaMock->shouldReceive('getPublicKey')
-            ->withNoArgs()
-            ->once()
-            ->andReturn('publicKey');
 
         $this->validatorMock->shouldReceive('validate')
             ->once()
