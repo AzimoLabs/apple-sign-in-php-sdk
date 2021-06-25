@@ -2,22 +2,29 @@
 
 namespace Azimo\Apple\Auth\Jwt;
 
+use DateTimeImmutable;
 use Lcobucci\JWT;
 
 class JwtValidator
 {
     /**
-     * @var JWT\ValidationData
+     * @var JWT\Validator
      */
-    private $validationData;
+    private $validator;
 
-    public function __construct(JWT\ValidationData $validationData)
+    /**
+     * @var array
+     */
+    private $constraints;
+
+    public function __construct(JWT\Validator $validator, array $constraints)
     {
-        $this->validationData = $validationData;
+        $this->validator = $validator;
+        $this->constraints = $constraints;
     }
 
     public function isValid(JWT\Token $jwt): bool
     {
-        return $jwt->validate($this->validationData) && !$jwt->isExpired();
+        return $this->validator->validate($jwt, ...$this->constraints) && !$jwt->isExpired(new DateTimeImmutable());
     }
 }

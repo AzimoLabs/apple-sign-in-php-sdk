@@ -8,7 +8,7 @@ use Azimo\Apple\Api\Factory\ResponseFactory;
 use Azimo\Apple\Api\Response\JsonWebKeySetCollection;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class ResponseFactoryTest extends MockeryTestCase
+final class ResponseFactoryTest extends MockeryTestCase
 {
     /**
      * @var ResponseFactory

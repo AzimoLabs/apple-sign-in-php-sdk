@@ -5,7 +5,6 @@ namespace Azimo\Apple\Tests\Unit\Auth\Jwt;
 use Azimo\Apple\APi;
 use Azimo\Apple\Auth\Exception;
 use Azimo\Apple\Auth\Jwt\JwtVerifier;
-use BadMethodCallException;
 use Lcobucci\JWT;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -26,14 +25,14 @@ class JwtVerifierTest extends MockeryTestCase
     private $rsaMock;
 
     /**
-     * @var JWT\Signer\Rsa\Sha256|Mockery\MockInterface
-     */
-    private $signerMock;
-
-    /**
-     * @var JWT\Token|Mockery\MockInterface
+     * @var JWT\Validator|Mockery\MockInterface
      */
     private $jwtMock;
+
+    /**
+     * @var JWT\Validator|Mockery\MockInterface
+     */
+    private $validatorMock;
 
     /**
      * @var JwtVerifier
@@ -44,12 +43,17 @@ class JwtVerifierTest extends MockeryTestCase
     {
         parent::setUp();
 
-        $this->appleApiClient = Mockery::mock(Api\AppleApiClient::class);
+        $this->validatorMock = Mockery::mock(JWT\Validator::class);
+        $this->appleApiClient = Mockery::mock(Api\AppleApiClientInterface::class);
         $this->rsaMock = Mockery::mock(RSA::class);
-        $this->signerMock = Mockery::mock(JWT\Signer\Rsa\Sha256::class);
         $this->jwtMock = Mockery::mock(JWT\Token::class);
 
-        $this->jwtVerifier = new JwtVerifier($this->appleApiClient, $this->rsaMock, $this->signerMock);
+        $this->jwtVerifier = new JwtVerifier(
+            $this->appleApiClient,
+            $this->validatorMock,
+            $this->rsaMock,
+            new JWT\Signer\Rsa\Sha256()
+        );
     }
 
     public function testIfVerifyThrowsKeysFetchingFailedExceptionWhenFailedToFetchJsonWebKeySet(): void
@@ -71,9 +75,9 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('getHeader')
+        $this->jwtMock->shouldReceive('headers')
             ->once()
-            ->with('kid')
+            ->withNoArgs()
             ->andThrow(new OutOfBoundsException('`kid` header is missing'));
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
@@ -88,10 +92,10 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('getHeader')
+        $this->jwtMock->shouldReceive('headers')
             ->once()
-            ->with('kid')
-            ->andReturn('foo');
+            ->withNoArgs()
+            ->andReturn(new JWT\Token\DataSet(['kid' => 'foo'], ''));
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage(
@@ -107,67 +111,13 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('getHeader')
+        $this->jwtMock->shouldReceive('headers')
             ->once()
-            ->with('kid')
-            ->andReturn('86D88Kf');
+            ->withNoArgs()
+            ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage('Unsupported cryptographic algorithm passed `86D88Kf');
-        $this->jwtVerifier->verify($this->jwtMock);
-    }
-
-    public function testIfVerifyThrowsNotSignedTokenExceptionWhenTokenIsMissingSignature(): void
-    {
-        $this->appleApiClient->shouldReceive('getAuthKeys')
-            ->once()
-            ->withNoArgs()
-            ->andReturn(
-                new Api\Response\JsonWebKeySetCollection(
-                    [
-                        '86D88Kf' => new Api\Response\JsonWebKeySet(
-                            'RSA',
-                            '86D88Kf',
-                            'sig',
-                            'RS256',
-                            'iGaLqP6y-SJCCBq5Hv6pGDbG_SQ11MNjH7rWHcCFYz4hGwHC4lcSurTlV8u3avoVNM8jXevG1Iu1SY11qInqUvjJur--hghr1b56OPJu6H1iKulSxGjEIyDP6c5BdE1uwprYyr4IO9th8fOwCPygjLFrh44XEGbDIFeImwvBAGOhmMB2AD1n1KviyNsH0bEB7phQtiLk-ILjv1bORSRl8AK677-1T8isGfHKXGZ_ZGtStDe7Lu0Ihp8zoUt59kx2o9uWpROkzF56ypresiIl4WprClRCjz8x6cPZXU2qNWhu71TQvUFwvIvbkE1oYaJMb0jcOTmBRZA2QuYw-zHLwQ',
-                            'AQAB'
-                        ),
-                    ]
-                )
-            );
-
-        $this->jwtMock->shouldReceive('getHeader')
-            ->once()
-            ->with('kid')
-            ->andReturn('86D88Kf');
-
-        $this->rsaMock->shouldReceive('loadKey')
-            ->once()
-            ->with(
-                Mockery::on(
-                    function (array $argument) {
-                        $this->assertArrayHasKey('exponent', $argument);
-                        $this->assertArrayHasKey('modulus', $argument);
-                        $this->assertInstanceOf(BigInteger::class, $argument['exponent']);
-                        $this->assertInstanceOf(BigInteger::class, $argument['modulus']);
-
-                        return true;
-                    }
-                )
-            );
-        $this->rsaMock->shouldReceive('getPublicKey')
-            ->withNoArgs()
-            ->once()
-            ->andReturn('publicKey');
-
-        $this->jwtMock->shouldReceive('verify')
-            ->once()
-            ->with($this->signerMock, 'publicKey')
-            ->andThrow(new BadMethodCallException('This token is not signed'));
-
-        $this->expectException(Exception\NotSignedTokenException::class);
-        $this->expectExceptionMessage('This token is not signed');
         $this->jwtVerifier->verify($this->jwtMock);
     }
 
@@ -191,10 +141,10 @@ class JwtVerifierTest extends MockeryTestCase
                 )
             );
 
-        $this->jwtMock->shouldReceive('getHeader')
+        $this->jwtMock->shouldReceive('headers')
             ->once()
-            ->with('kid')
-            ->andReturn('86D88Kf');
+            ->withNoArgs()
+            ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->rsaMock->shouldReceive('loadKey')
             ->once()
@@ -215,9 +165,9 @@ class JwtVerifierTest extends MockeryTestCase
             ->once()
             ->andReturn('publicKey');
 
-        $this->jwtMock->shouldReceive('verify')
+        $this->validatorMock->shouldReceive('validate')
             ->once()
-            ->with($this->signerMock, 'publicKey')
+            ->with($this->jwtMock, JWT\Validation\Constraint\SignedWith::class)
             ->andReturn(true);
 
         self::assertTrue($this->jwtVerifier->verify($this->jwtMock));
@@ -243,10 +193,10 @@ class JwtVerifierTest extends MockeryTestCase
                 )
             );
 
-        $this->jwtMock->shouldReceive('getHeader')
+        $this->jwtMock->shouldReceive('headers')
             ->once()
-            ->with('kid')
-            ->andReturn('86D88Kf');
+            ->withNoArgs()
+            ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->rsaMock->shouldReceive('loadKey')
             ->once()
@@ -267,9 +217,9 @@ class JwtVerifierTest extends MockeryTestCase
             ->once()
             ->andReturn('publicKey');
 
-        $this->jwtMock->shouldReceive('verify')
+        $this->validatorMock->shouldReceive('validate')
             ->once()
-            ->with($this->signerMock, 'publicKey')
+            ->with($this->jwtMock, JWT\Validation\Constraint\SignedWith::class)
             ->andReturn(false);
 
         self::assertFalse($this->jwtVerifier->verify($this->jwtMock));

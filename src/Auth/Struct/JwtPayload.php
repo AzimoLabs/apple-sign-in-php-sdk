@@ -2,7 +2,9 @@
 
 namespace Azimo\Apple\Auth\Struct;
 
-class JwtPayload
+use DateTimeInterface;
+
+final class JwtPayload
 {
     /**
      * @var string
@@ -10,17 +12,17 @@ class JwtPayload
     private $iss;
 
     /**
-     * @var string
+     * @var array
      */
     private $aud;
 
     /**
-     * @var int
+     * @var DateTimeInterface
      */
     private $exp;
 
     /**
-     * @var int
+     * @var DateTimeInterface
      */
     private $iat;
 
@@ -61,9 +63,9 @@ class JwtPayload
 
     public function __construct(
         string $iss,
-        string $aud,
-        int $exp,
-        int $iat,
+        array $aud,
+        DateTimeInterface $exp,
+        DateTimeInterface $iat,
         string $sub,
         string $cHash,
         string $email,
@@ -90,17 +92,17 @@ class JwtPayload
         return $this->iss;
     }
 
-    public function getAud(): string
+    public function getAud(): array
     {
         return $this->aud;
     }
 
-    public function getExp(): int
+    public function getExp(): DateTimeInterface
     {
         return $this->exp;
     }
 
-    public function getIat(): int
+    public function getIat§(): DateTimeInterface
     {
         return $this->iat;
     }
