@@ -11,11 +11,15 @@ Recommended and easiest way to installing library is through [Composer](https://
 
 ## Requirements
 
-* PHP 7.4+
+* PHP 7.1+
 * OpenSSL Extension
 
 ## PHP support
-// todo
+|PHP version|Library version|
+|---|---|
+|`5.x`|`NOT SUPPORTED`|
+| `> 7.0 <= 7.3`| `1.x.x` |
+| `> 7.4 < 8.0`| `2.x.x` |
 
 ## How it works
 
@@ -38,7 +42,11 @@ examples are shown below.
 Once you have cloned repository, make sure that composer dependencies are installed running `composer install -o`.
 
 ```php
-$appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
+$validationData = new ValidationData();
+$validationData->setIssuer('https://appleid.apple.com');
+$validationData->setAudience('com.azimo');
+
+$appleJwtFetchingService new Auth\Service\AppleJwtFetchingService(
             new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())),
             new Auth\Jwt\JwtVerifier(
                 new Api\AppleApiClient(
@@ -89,7 +97,7 @@ OK (1 test, 1 assertion)
 It is welcome to open a pull request with a fix of any issue:
 
 - [x] Upgrade `phpseclib/phpseclib` to version `3.0.7`
-- [x] Upgrade `lcobucci/jwt` to version `4.x`. Reported
+- [ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported
   in: [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
 - [x] Make library compatible with PHP `7.4.3`. Reported
   in [Uncaught JsonException: Malformed UTF-8 characters](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/4)
