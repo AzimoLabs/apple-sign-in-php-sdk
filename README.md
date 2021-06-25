@@ -18,7 +18,8 @@ Recommended and easiest way to installing library is through [Composer](https://
 |PHP version|Library version|
 |---|---|
 |`5.x`|`NOT SUPPORTED`|
-| `> 7.0 <= 7.3`| `1.x.x` |
+| `> 7.0 <= 7.3`| `1.4.x` |
+| `> 7.4 < 8.0`| `1.5.x` |
 
 ## How it works
 
@@ -46,7 +47,7 @@ $validationData->setIssuer('https://appleid.apple.com');
 $validationData->setAudience('com.azimo');
 
 $appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
-            new Auth\Jwt\JwtParser(new Parser()),
+            new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())),
             new Auth\Jwt\JwtVerifier(
                 new Api\AppleApiClient(
                     new GuzzleHttp\Client(
@@ -58,9 +59,16 @@ $appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
                     ),
                     new Api\Factory\ResponseFactory()
                 ),
+                new \Lcobucci\JWT\Validation\Validator(),
                 new \Lcobucci\JWT\Signer\Rsa\Sha256()
             ),
-            new Auth\Jwt\JwtValidator($validationData),
+            new Auth\Jwt\JwtValidator(
+                new \Lcobucci\JWT\Validation\Validator(),
+                [
+                    new \Lcobucci\JWT\Validation\Constraint\IssuedBy('https://appleid.apple.com'),
+                    new \Lcobucci\JWT\Validation\Constraint\PermittedFor('com.c.azimo.stage'),
+                ]
+            ),
             new Auth\Factory\AppleJwtStructFactory()
         );
 
@@ -89,7 +97,7 @@ OK (1 test, 1 assertion)
 It is welcome to open a pull request with a fix of any issue:
 
 - [x] Upgrade `phpseclib/phpseclib` to version `3.0.7`
-- [ ] Upgrade `lcobucci/jwt` to version `4.x`. Reported
+- [x] Upgrade `lcobucci/jwt` to version `4.x`. Reported
   in: [Implicit conversion of keys from strings is deprecated. #2](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/2)
 - [x] Make library compatible with PHP `7.4.3`. Reported
   in [Uncaught JsonException: Malformed UTF-8 characters](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/4)

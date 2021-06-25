@@ -2,11 +2,10 @@
 
 namespace Azimo\Apple\Auth\Jwt;
 
-use Azimo\Apple\Api\AppleApiClient;
+use Azimo\Apple\Api\AppleApiClientInterface;
 use Azimo\Apple\Api\Exception as ApiException;
 use Azimo\Apple\Api\Response\JsonWebKeySet;
 use Azimo\Apple\Auth\Exception;
-use BadMethodCallException;
 use Lcobucci\JWT;
 use OutOfBoundsException;
 use phpseclib3\Crypt\RSA;
@@ -15,7 +14,7 @@ use phpseclib3\Math\BigInteger;
 class JwtVerifier
 {
     /**
-     * @var AppleApiClient
+     * @var AppleApiClientInterface
      */
     private $client;
 
@@ -24,24 +23,31 @@ class JwtVerifier
      */
     private $signer;
 
-    public function __construct(AppleApiClient $client, JWT\Signer $signer)
+    /**
+     * @var JWT\Validator
+     */
+    private $validator;
+
+    public function __construct(AppleApiClientInterface $client, JWT\Validator $validator, JWT\Signer $signer)
     {
         $this->client = $client;
         $this->signer = $signer;
+        $this->validator = $validator;
     }
 
     /**
      * @throws Exception\InvalidCryptographicAlgorithmException
      * @throws Exception\KeysFetchingFailedException
-     * @throws Exception\NotSignedTokenException
      */
     public function verify(JWT\Token $jwt): bool
     {
-        try {
-            return $jwt->verify($this->signer, $this->createPublicKey($this->getAuthKey($jwt)));
-        } catch (BadMethodCallException $exception) {
-            throw  new Exception\NotSignedTokenException($exception->getMessage(), $exception->getCode(), $exception);
-        }
+        return $this->validator->validate(
+            $jwt,
+            new JWT\Validation\Constraint\SignedWith(
+                $this->signer,
+                JWT\Signer\Key\InMemory::plainText($this->createPublicKey($this->getAuthKey($jwt)))
+            )
+        );
     }
 
     /**
@@ -61,7 +67,7 @@ class JwtVerifier
         }
 
         try {
-            $cryptographicAlgorithm = $jwt->getHeader('kid');
+            $cryptographicAlgorithm = $jwt->headers()->get('kid');
             $authKey = $authKeys->getByCryptographicAlgorithm($cryptographicAlgorithm);
         } catch (OutOfBoundsException | ApiException\UnsupportedCryptographicAlgorithmException $exception) {
             throw new Exception\InvalidCryptographicAlgorithmException(

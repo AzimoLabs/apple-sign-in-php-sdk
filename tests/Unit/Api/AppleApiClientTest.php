@@ -9,7 +9,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Psr\Http\Message\RequestInterface;
 
-class AppleApiClientTest extends MockeryTestCase
+final class AppleApiClientTest extends MockeryTestCase
 {
     /**
      * @var Api\AppleApiClient

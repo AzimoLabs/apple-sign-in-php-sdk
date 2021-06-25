@@ -7,6 +7,7 @@ use Azimo\Apple\Auth\Factory\AppleJwtStructFactory;
 use Azimo\Apple\Auth\Jwt;
 use Azimo\Apple\Auth\Service\AppleJwtFetchingService;
 use Azimo\Apple\Auth\Struct\JwtPayload;
+use DateTimeImmutable;
 use Lcobucci\JWT\Token;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -57,7 +58,7 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
 
     public function testIfGetJwtPayloadThrowsVerificationFailedExceptionWhenVerificationFails(): void
     {
-        $token = new Token();
+        $token = Mockery::mock(Token::class);
         $this->parserMock->shouldReceive('parse')
             ->once()
             ->with('json.web.token')
@@ -78,7 +79,7 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
 
     public function testIfGetJwtPayloadThrowsValidationFailedExceptionWhenTokenIsInvalid(): void
     {
-        $token = new Token();
+        $token = Mockery::mock(Token::class);
         $this->parserMock->shouldReceive('parse')
             ->once()
             ->with('json.web.token')
@@ -101,7 +102,8 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
 
     public function testIfGetJwtPayloadReturnsExpectedJwtPayloadWhenTokenIsVerifiedAndValid(): void
     {
-        $token = new Token();
+        $currentDate = new DateTimeImmutable();
+        $token = Mockery::mock(Token::class);
         $this->parserMock->shouldReceive('parse')
             ->once()
             ->with('json.web.token')
@@ -119,9 +121,9 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
 
         $jwtPayload = new JwtPayload(
             'https://appleid.apple.com',
-            'com.acme.app',
-            1591622611,
-            1591622011,
+            ['com.acme.app'],
+            $currentDate,
+            $currentDate,
             'foo.bar.baz',
             'qGzMhtsfTCom-bl1PJYLHk',
             'foo@privaterelay.appleid.com',

@@ -5,12 +5,15 @@ namespace Azimo\Apple\Tests\E2e\Auth;
 use Azimo\Apple\Api;
 use Azimo\Apple\Auth;
 use GuzzleHttp;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Validator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class AppleJwtFetchingServiceTest extends MockeryTestCase
+final class AppleJwtFetchingServiceTest extends MockeryTestCase
 {
     /**
      * @var Auth\Service\AppleJwtFetchingService
@@ -21,12 +24,8 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
     {
         parent::setUp();
 
-        $validationData = new ValidationData();
-        $validationData->setIssuer('https://appleid.apple.com');
-        $validationData->setAudience('com.c.azimo.stage');
-
         $this->appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
-            new Auth\Jwt\JwtParser(new Parser()),
+            new Auth\Jwt\JwtParser(new Parser(new JoseEncoder())),
             new Auth\Jwt\JwtVerifier(
                 new Api\AppleApiClient(
                     new GuzzleHttp\Client(
@@ -38,9 +37,16 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
                     ),
                     new Api\Factory\ResponseFactory()
                 ),
+                new Validator(),
                 new Sha256()
             ),
-            new Auth\Jwt\JwtValidator($validationData),
+            new Auth\Jwt\JwtValidator(
+                new Validator(),
+                [
+                    new IssuedBy('https://appleid.apple.com'),
+                    new PermittedFor('com.c.azimo.stage'),
+                ]
+            ),
             new Auth\Factory\AppleJwtStructFactory()
         );
     }
