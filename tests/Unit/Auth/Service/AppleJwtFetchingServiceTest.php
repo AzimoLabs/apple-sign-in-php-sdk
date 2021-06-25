@@ -14,30 +14,15 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class AppleJwtFetchingServiceTest extends MockeryTestCase
 {
-    /**
-     * @var Jwt\JwtParser|Mockery\MockInterface
-     */
-    private $parserMock;
+    private Jwt\JwtParser $parserMock;
 
-    /**
-     * @var Jwt\JwtVerifier|Mockery\MockInterface
-     */
-    private $verifierMock;
+    private Jwt\JwtVerifier $verifierMock;
 
-    /**
-     * @var Jwt\JwtValidator|Mockery\MockInterface
-     */
-    private $validatorMock;
+    private Jwt\JwtValidator $validatorMock;
 
-    /**
-     * @var AppleJwtStructFactory|Mockery\MockInterface
-     */
-    private $factoryMock;
+    private AppleJwtStructFactory $factoryMock;
 
-    /**
-     * @var AppleJwtFetchingService
-     */
-    private $jwtService;
+    private AppleJwtFetchingService $jwtService;
 
     protected function setUp(): void
     {

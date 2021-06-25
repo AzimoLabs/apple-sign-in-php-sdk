@@ -10,10 +10,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 final class AppleJwtStructFactoryTest extends MockeryTestCase
 {
-    /**
-     * @var AppleJwtStructFactory
-     */
-    private $appleJwtStructFactory;
+    private AppleJwtStructFactory $appleJwtStructFactory;
 
     protected function setUp(): void
     {

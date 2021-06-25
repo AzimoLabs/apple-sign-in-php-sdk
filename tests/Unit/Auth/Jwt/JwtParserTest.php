@@ -13,15 +13,9 @@ use RuntimeException;
 
 final class JwtParserTest extends MockeryTestCase
 {
-    /**
-     * @var Parser|Mockery\MockInterface
-     */
-    private $jwtParserMock;
+    private Parser $jwtParserMock;
 
-    /**
-     * @var JwtParser
-     */
-    private $parser;
+    private JwtParser $parser;
 
     protected function setUp(): void
     {

@@ -9,25 +9,13 @@ use Azimo\Apple\Auth\Struct\JwtPayload;
 
 final class AppleJwtFetchingService implements AppleJwtFetchingServiceInterface
 {
-    /**
-     * @var Jwt\JwtParser
-     */
-    private $parser;
+    private Jwt\JwtParser $parser;
 
-    /**
-     * @var Jwt\JwtVerifier
-     */
-    private $verifier;
+    private Jwt\JwtVerifier $verifier;
 
-    /**
-     * @var Jwt\JwtValidator
-     */
-    private $validator;
+    private Jwt\JwtValidator $validator;
 
-    /**
-     * @var AppleJwtStructFactory
-     */
-    private $factory;
+    private AppleJwtStructFactory $factory;
 
     public function __construct(
         Jwt\JwtParser $parser,

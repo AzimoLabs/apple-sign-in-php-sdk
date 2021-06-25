@@ -15,10 +15,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 final class AppleJwtFetchingServiceTest extends MockeryTestCase
 {
-    /**
-     * @var Auth\Service\AppleJwtFetchingService
-     */
-    private $appleJwtFetchingService;
+    private Auth\Service\AppleJwtFetchingService $appleJwtFetchingService;
 
     public function setUp(): void
     {

@@ -13,20 +13,11 @@ use phpseclib3\Math\BigInteger;
 
 class JwtVerifier
 {
-    /**
-     * @var AppleApiClientInterface
-     */
-    private $client;
+    private AppleApiClientInterface $client;
 
-    /**
-     * @var JWT\Signer
-     */
-    private $signer;
+    private JWT\Signer $signer;
 
-    /**
-     * @var JWT\Validator
-     */
-    private $validator;
+    private JWT\Validator $validator;
 
     public function __construct(AppleApiClientInterface $client, JWT\Validator $validator, JWT\Signer $signer)
     {

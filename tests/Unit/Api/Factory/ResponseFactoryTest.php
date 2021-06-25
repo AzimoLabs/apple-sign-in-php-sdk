@@ -10,10 +10,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 final class ResponseFactoryTest extends MockeryTestCase
 {
-    /**
-     * @var ResponseFactory
-     */
-    private $responseFactory;
+    private ResponseFactory $responseFactory;
 
     protected function setUp(): void
     {
