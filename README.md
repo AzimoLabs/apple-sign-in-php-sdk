@@ -18,8 +18,8 @@ Recommended and easiest way to installing library is through [Composer](https://
 |PHP version|Library version|
 |---|---|
 |`5.x`|`NOT SUPPORTED`|
-| `> 7.0 <= 7.3`| `1.x.x` |
-| `> 7.4 < 8.0`| `2.x.x` |
+| `> 7.0 <= 7.3`| `1.4.x` |
+| `> 7.4 < 8.0`| `1.5.x` |
 
 ## How it works
 
