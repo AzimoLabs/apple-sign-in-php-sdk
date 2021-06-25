@@ -10,29 +10,13 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 final class JwtValidatorTest extends MockeryTestCase
 {
-    /**
-     * @var JWT\Token|Mockery\MockInterface
-     */
-    private $jwtMock;
+    private JWT\Token $jwtMock;
 
-    /**
-     * @var
-     */
-    private $constraints;
+    private array $constraints;
 
-    /**
-     * @var JWT\Validator|Mockery\MockInterface
-     */
-    private $validatorMock;
+    private JWT\Validator $validatorMock;
 
-    /**
-     * @var JwtValidator JwtValidator
-     */
-    private $jwtValidator;
-
-    /**
-     * @var JwtValidator JwtValidator
-     */
+    private JwtValidator $jwtValidator;
 
     protected function setUp(): void
     {

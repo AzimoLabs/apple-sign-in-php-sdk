@@ -10,15 +10,9 @@ use InvalidArgumentException;
 
 final class AppleApiClient implements AppleApiClientInterface
 {
-    /**
-     * @var GuzzleHttp\ClientInterface
-     */
-    private $httpClient;
+    private GuzzleHttp\ClientInterface $httpClient;
 
-    /**
-     * @var ResponseFactory
-     */
-    private $responseFactory;
+    private ResponseFactory $responseFactory;
 
     public function __construct(GuzzleHttp\ClientInterface $httpClient, ResponseFactory $responseFactory)
     {

@@ -7,15 +7,9 @@ use Lcobucci\JWT;
 
 class JwtValidator
 {
-    /**
-     * @var JWT\Validator
-     */
-    private $validator;
+    private JWT\Validator $validator;
 
-    /**
-     * @var array
-     */
-    private $constraints;
+    private array $constraints;
 
     public function __construct(JWT\Validator $validator, array $constraints)
     {

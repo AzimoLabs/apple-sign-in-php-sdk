@@ -6,60 +6,27 @@ use DateTimeInterface;
 
 final class JwtPayload
 {
-    /**
-     * @var string
-     */
-    private $iss;
+    private string $iss;
 
-    /**
-     * @var array
-     */
-    private $aud;
+    private array $aud;
 
-    /**
-     * @var DateTimeInterface
-     */
-    private $exp;
+    private DateTimeInterface $exp;
 
-    /**
-     * @var DateTimeInterface
-     */
-    private $iat;
+    private DateTimeInterface $iat;
 
-    /**
-     * @var string
-     */
-    private $sub;
+    private string $sub;
 
-    /**
-     * @var string
-     */
-    private $cHash;
+    private string $cHash;
 
-    /**
-     * @var string
-     */
-    private $email;
+    private string $email;
 
-    /**
-     * @var bool
-     */
-    private $emailVerified;
+    private bool $emailVerified;
 
-    /**
-     * @var bool
-     */
-    private $isPrivateEmail;
+    private bool $isPrivateEmail;
 
-    /**
-     * @var int
-     */
-    private $authTime;
+    private int $authTime;
 
-    /**
-     * @var bool
-     */
-    private $nonceSupported;
+    private bool $nonceSupported;
 
     public function __construct(
         string $iss,
@@ -102,7 +69,7 @@ final class JwtPayload
         return $this->exp;
     }
 
-    public function getIat§(): DateTimeInterface
+    public function getIat(): DateTimeInterface
     {
         return $this->iat;
     }

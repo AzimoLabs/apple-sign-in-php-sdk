@@ -9,29 +9,16 @@ use Lcobucci\JWT;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use OutOfBoundsException;
-use phpseclib3\Math\BigInteger;
 
 class JwtVerifierTest extends MockeryTestCase
 {
-    /**
-     * @var APi\AppleApiClient|Mockery\MockInterface
-     */
-    private $appleApiClient;
+    private APi\AppleApiClientInterface $appleApiClient;
 
-    /**
-     * @var JWT\Validator|Mockery\MockInterface
-     */
-    private $jwtMock;
+    private JWT\Token $jwtTokenMock;
 
-    /**
-     * @var JWT\Validator|Mockery\MockInterface
-     */
-    private $validatorMock;
+    private JWT\Validator $validatorMock;
 
-    /**
-     * @var JwtVerifier
-     */
-    private $jwtVerifier;
+    private JwtVerifier $jwtVerifier;
 
     protected function setUp(): void
     {
@@ -39,7 +26,7 @@ class JwtVerifierTest extends MockeryTestCase
 
         $this->validatorMock = Mockery::mock(JWT\Validator::class);
         $this->appleApiClient = Mockery::mock(Api\AppleApiClientInterface::class);
-        $this->jwtMock = Mockery::mock(JWT\Token::class);
+        $this->jwtTokenMock = Mockery::mock(JWT\Token::class);
 
         $this->jwtVerifier = new JwtVerifier(
             $this->appleApiClient,
@@ -57,7 +44,7 @@ class JwtVerifierTest extends MockeryTestCase
 
         $this->expectException(Exception\KeysFetchingFailedException::class);
         $this->expectExceptionMessage('Connection error');
-        $this->jwtVerifier->verify($this->jwtMock);
+        $this->jwtVerifier->verify($this->jwtTokenMock);
     }
 
     public function testIfVerifyThrowsInvalidCryptographicAlgorithmExceptionWhenKidHeaderNotExist(): void
@@ -67,14 +54,14 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('headers')
+        $this->jwtTokenMock->shouldReceive('headers')
             ->once()
             ->withNoArgs()
             ->andThrow(new OutOfBoundsException('`kid` header is missing'));
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage('`kid` header is missing');
-        $this->jwtVerifier->verify($this->jwtMock);
+        $this->jwtVerifier->verify($this->jwtTokenMock);
     }
 
     public function testIfVerifyThrowsInvalidCryptographicAlgorithmExceptionWhenAlgorithmIsNotSupported(): void
@@ -84,7 +71,7 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('headers')
+        $this->jwtTokenMock->shouldReceive('headers')
             ->once()
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => 'foo'], ''));
@@ -93,7 +80,7 @@ class JwtVerifierTest extends MockeryTestCase
         $this->expectExceptionMessage(
             'Cryptographic algorithm `foo` is not supported. Supported algorithms: `86D88Kf,eXaunmL,YuyXoY`'
         );
-        $this->jwtVerifier->verify($this->jwtMock);
+        $this->jwtVerifier->verify($this->jwtTokenMock);
     }
 
     public function testIfVerifyThrowsInvalidCryptographicAlgorithmExceptionWhenAuthKeyNotExistForGivenAlgorithm(): void
@@ -103,14 +90,14 @@ class JwtVerifierTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn(new Api\Response\JsonWebKeySetCollection([]));
 
-        $this->jwtMock->shouldReceive('headers')
+        $this->jwtTokenMock->shouldReceive('headers')
             ->once()
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage('Unsupported cryptographic algorithm passed `86D88Kf');
-        $this->jwtVerifier->verify($this->jwtMock);
+        $this->jwtVerifier->verify($this->jwtTokenMock);
     }
 
     public function testIfVerifyReturnsTrueWhenTokenIsCorrect(): void
@@ -133,17 +120,17 @@ class JwtVerifierTest extends MockeryTestCase
                 )
             );
 
-        $this->jwtMock->shouldReceive('headers')
+        $this->jwtTokenMock->shouldReceive('headers')
             ->once()
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->validatorMock->shouldReceive('validate')
             ->once()
-            ->with($this->jwtMock, JWT\Validation\Constraint\SignedWith::class)
+            ->with($this->jwtTokenMock, JWT\Validation\Constraint\SignedWith::class)
             ->andReturn(true);
 
-        self::assertTrue($this->jwtVerifier->verify($this->jwtMock));
+        self::assertTrue($this->jwtVerifier->verify($this->jwtTokenMock));
     }
 
     public function testIfVerifyReturnsTrueWhenTokenIsCorrectMalformed(): void
@@ -166,16 +153,16 @@ class JwtVerifierTest extends MockeryTestCase
                 )
             );
 
-        $this->jwtMock->shouldReceive('headers')
+        $this->jwtTokenMock->shouldReceive('headers')
             ->once()
             ->withNoArgs()
             ->andReturn(new JWT\Token\DataSet(['kid' => '86D88Kf'], ''));
 
         $this->validatorMock->shouldReceive('validate')
             ->once()
-            ->with($this->jwtMock, JWT\Validation\Constraint\SignedWith::class)
+            ->with($this->jwtTokenMock, JWT\Validation\Constraint\SignedWith::class)
             ->andReturn(false);
 
-        self::assertFalse($this->jwtVerifier->verify($this->jwtMock));
+        self::assertFalse($this->jwtVerifier->verify($this->jwtTokenMock));
     }
 }
