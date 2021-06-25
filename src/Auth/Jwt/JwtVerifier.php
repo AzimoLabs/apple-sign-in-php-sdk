@@ -9,8 +9,8 @@ use Azimo\Apple\Auth\Exception;
 use BadMethodCallException;
 use Lcobucci\JWT;
 use OutOfBoundsException;
-use phpseclib\Crypt\RSA;
-use phpseclib\Math\BigInteger;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Math\BigInteger;
 
 class JwtVerifier
 {
@@ -20,19 +20,13 @@ class JwtVerifier
     private $client;
 
     /**
-     * @var RSA
-     */
-    private $rsa;
-
-    /**
      * @var JWT\Signer
      */
     private $signer;
 
-    public function __construct(AppleApiClient $client, RSA $rsa, JWT\Signer $signer)
+    public function __construct(AppleApiClient $client, JWT\Signer $signer)
     {
         $this->client = $client;
-        $this->rsa = $rsa;
         $this->signer = $signer;
     }
 
@@ -43,10 +37,8 @@ class JwtVerifier
      */
     public function verify(JWT\Token $jwt): bool
     {
-        $this->loadRsaKey($this->getAuthKey($jwt));
-
         try {
-            return $jwt->verify($this->signer, $this->rsa->getPublicKey());
+            return $jwt->verify($this->signer, $this->createPublicKey($this->getAuthKey($jwt)));
         } catch (BadMethodCallException $exception) {
             throw  new Exception\NotSignedTokenException($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -88,24 +80,11 @@ class JwtVerifier
         return $authKey;
     }
 
-    private function loadRsaKey(JsonWebKeySet $authKey): void
+    private function createPublicKey(JsonWebKeySet $authKey): string
     {
-        /**
-         * Phpspeclib is parsing phpinfo(); output to determine OpenSSL Library and Header versions,
-         * basing on that set if MATH_BIGINTEGER_OPENSSL_ENABLED or MATH_BIGINTEGER_OPENSSL_DISABLED const.
-         * It crashes tests so it is possible that it might crash production, that is why constants are overwritten.
-         *
-         * @see vendor/phpseclib/phpseclib/phpseclib/Math/BigInteger.php:273
-         */
-        if (!defined('MATH_BIGINTEGER_OPENSSL_ENABLED')) {
-            define('MATH_BIGINTEGER_OPENSSL_ENABLED', true);
-        }
-
-        $this->rsa->loadKey(
-            [
-                'exponent' => new BigInteger(base64_decode(strtr($authKey->getExponent(), '-_', '+/')), 256),
-                'modulus'  => new BigInteger(base64_decode(strtr($authKey->getModulus(), '-_', '+/')), 256),
-            ]
+        return RSA\Formats\Keys\PKCS8::savePublicKey(
+            new BigInteger(base64_decode(strtr($authKey->getModulus(), '-_', '+/')), 256),
+            new BigInteger(base64_decode(strtr($authKey->getExponent(), '-_', '+/')), 256)
         );
     }
 }
