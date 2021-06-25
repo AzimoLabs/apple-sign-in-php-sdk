@@ -14,6 +14,12 @@ Recommended and easiest way to installing library is through [Composer](https://
 * PHP 7.1+
 * OpenSSL Extension
 
+## PHP support
+|PHP version|Library version|
+|---|---|
+|`5.x`|`NOT SUPPORTED`|
+| `> 7.0 <= 7.3`| `1.x.x` |
+
 ## How it works
 
 This description assumes that you already have
