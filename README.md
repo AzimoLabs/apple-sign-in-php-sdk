@@ -47,8 +47,10 @@ $validationData = new ValidationData();
 $validationData->setIssuer('https://appleid.apple.com');
 $validationData->setAudience('com.azimo');
 
-$appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
-            new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())),
+//No use statements ?????
+
+$appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(   
+            new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())), //Who the fuck is JOSE?
             new Auth\Jwt\JwtVerifier(
                 new Api\AppleApiClient(
                     new GuzzleHttp\Client(
