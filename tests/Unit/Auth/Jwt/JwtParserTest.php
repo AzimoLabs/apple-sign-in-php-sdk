@@ -11,17 +11,11 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use RuntimeException;
 
-class JwtParserTest extends MockeryTestCase
+final class JwtParserTest extends MockeryTestCase
 {
-    /**
-     * @var Parser|Mockery\MockInterface
-     */
-    private $jwtParserMock;
+    private Parser $jwtParserMock;
 
-    /**
-     * @var JwtParser
-     */
-    private $parser;
+    private JwtParser $parser;
 
     protected function setUp(): void
     {
@@ -34,7 +28,7 @@ class JwtParserTest extends MockeryTestCase
 
     public function testIfParseReturnsExpectedTokenObjectWhenJwtIsCorrect(): void
     {
-        $token = new Token();
+        $token = Mockery::mock(Token::class);
 
         $this->jwtParserMock->shouldReceive('parse')
             ->once()

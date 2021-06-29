@@ -4,6 +4,6 @@ namespace Azimo\Apple\Api\Exception;
 
 use InvalidArgumentException;
 
-class UnsupportedCryptographicAlgorithmException extends InvalidArgumentException implements AppleApiExceptionInterface
+final class UnsupportedCryptographicAlgorithmException extends InvalidArgumentException implements AppleApiExceptionInterface
 {
 }

@@ -4,6 +4,6 @@ namespace Azimo\Apple\Api\Exception;
 
 use RuntimeException;
 
-class PublicKeyFetchingFailedException extends RuntimeException implements AppleApiExceptionInterface
+final class PublicKeyFetchingFailedException extends RuntimeException implements AppleApiExceptionInterface
 {
 }

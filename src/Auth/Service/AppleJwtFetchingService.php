@@ -7,27 +7,15 @@ use Azimo\Apple\Auth\Factory\AppleJwtStructFactory;
 use Azimo\Apple\Auth\Jwt;
 use Azimo\Apple\Auth\Struct\JwtPayload;
 
-class AppleJwtFetchingService
+final class AppleJwtFetchingService implements AppleJwtFetchingServiceInterface
 {
-    /**
-     * @var Jwt\JwtParser
-     */
-    private $parser;
+    private Jwt\JwtParser $parser;
 
-    /**
-     * @var Jwt\JwtVerifier
-     */
-    private $verifier;
+    private Jwt\JwtVerifier $verifier;
 
-    /**
-     * @var Jwt\JwtValidator
-     */
-    private $validator;
+    private Jwt\JwtValidator $validator;
 
-    /**
-     * @var AppleJwtStructFactory
-     */
-    private $factory;
+    private AppleJwtStructFactory $factory;
 
     public function __construct(
         Jwt\JwtParser $parser,
@@ -46,7 +34,6 @@ class AppleJwtFetchingService
      * @throws Exception\InvalidJwtException
      * @throws Exception\KeysFetchingFailedException
      * @throws Exception\MissingClaimException
-     * @throws Exception\NotSignedTokenException
      * @throws Exception\ValidationFailedException
      * @throws Exception\VerificationFailedException
      */
