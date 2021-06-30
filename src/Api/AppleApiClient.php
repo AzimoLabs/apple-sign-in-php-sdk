@@ -5,7 +5,6 @@ namespace Azimo\Apple\Api;
 use Azimo\Apple\Api\Exception\PublicKeyFetchingFailedException;
 use Azimo\Apple\Api\Factory\ResponseFactory;
 use GuzzleHttp;
-use GuzzleHttp\Utils;
 use InvalidArgumentException;
 
 final class AppleApiClient implements AppleApiClientInterface
