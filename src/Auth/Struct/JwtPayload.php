@@ -26,6 +26,8 @@ final class JwtPayload
 
     private int $authTime;
 
+    private ?string $nonce;
+
     private bool $nonceSupported;
 
     public function __construct(
@@ -39,7 +41,8 @@ final class JwtPayload
         bool $emailVerified,
         bool $isPrivateEmail,
         int $authTime,
-        bool $nonceSupported
+        bool $nonceSupported,
+        ?string $nonce
     ) {
         $this->iss = $iss;
         $this->aud = $aud;
@@ -52,6 +55,7 @@ final class JwtPayload
         $this->isPrivateEmail = $isPrivateEmail;
         $this->authTime = $authTime;
         $this->nonceSupported = $nonceSupported;
+        $this->nonce = $nonce;
     }
 
     public function getIss(): string
@@ -102,6 +106,11 @@ final class JwtPayload
     public function getAuthTime(): int
     {
         return $this->authTime;
+    }
+
+    public function getNonce(): ?string
+    {
+        return $this->nonce;
     }
 
     public function isNonceSupported(): bool
