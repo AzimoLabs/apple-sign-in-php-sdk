@@ -115,7 +115,8 @@ class AppleJwtFetchingServiceTest extends MockeryTestCase
             true,
             true,
             1591622011,
-            true
+            true,
+            null
         );
 
         $this->factoryMock->shouldReceive('createJwtPayloadFromToken')
