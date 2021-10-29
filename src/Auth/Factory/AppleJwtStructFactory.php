@@ -28,7 +28,8 @@ class AppleJwtStructFactory
             // For some reason Apple API returns boolean flag as a string
             (string) $claims->get('is_private_email', 'false') === 'true',
             $claims->get('auth_time'),
-            $claims->get('nonce_supported', false)
+            $claims->get('nonce_supported', false),
+            $claims->get('nonce')
         );
     }
 }
