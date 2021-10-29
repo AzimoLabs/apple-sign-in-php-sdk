@@ -35,7 +35,8 @@ final class AppleJwtStructFactoryTest extends MockeryTestCase
                 true,
                 true,
                 1591622011,
-                true
+                true,
+                null
             ),
             $this->appleJwtStructFactory->createJwtPayloadFromToken(
                 new Token\Plain(
@@ -57,7 +58,7 @@ final class AppleJwtStructFactoryTest extends MockeryTestCase
                             'email_verified'   => 'true',
                             'is_private_email' => 'true',
                             'auth_time'        => 1591622011,
-                            'nonce_supported'  => true,
+                            'nonce_supported'  => true
                         ], ''
                     ),
                     Token\Signature::fromEmptyData()
