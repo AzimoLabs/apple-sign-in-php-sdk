@@ -1,6 +1,5 @@
 # Sign-in with Apple SDK
 
-[![Latest Version](https://img.shields.io/github/v/release/AzimoLabs/apple-sign-in-php-sdk.svg?style=flat-square)](https://github.com/AzimoLabs/apple-sign-in-php-sdk/releases)
 [![Build Status](https://img.shields.io/github/workflow/status/AzimoLabs/apple-sign-in-php-sdk/CI?label=ci%20build&style=flat-square)](https://github.com/AzimoLabs/apple-sign-in-php-sdk/actions?query=workflow%3ACI)
 
 ## Installation
