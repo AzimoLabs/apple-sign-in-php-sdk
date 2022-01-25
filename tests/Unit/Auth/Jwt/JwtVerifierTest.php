@@ -78,7 +78,7 @@ class JwtVerifierTest extends MockeryTestCase
 
         $this->expectException(Exception\InvalidCryptographicAlgorithmException::class);
         $this->expectExceptionMessage(
-            'Cryptographic algorithm `foo` is not supported. Supported algorithms: `86D88Kf,eXaunmL,YuyXoY`'
+            'Cryptographic algorithm `foo` is not supported. Supported algorithms: `86D88Kf,eXaunmL,YuyXoY,W6WcOKB`'
         );
         $this->jwtVerifier->verify($this->jwtTokenMock);
     }
