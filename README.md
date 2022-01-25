@@ -102,7 +102,8 @@ It is welcome to open a pull request with a fix of any issue:
 - [x] Make library compatible with PHP `7.4.3`. Reported
   in [Uncaught JsonException: Malformed UTF-8 characters](https://github.com/AzimoLabs/apple-sign-in-php-sdk/issues/4)
 - [x] Make library compatible with PHP `8.0.0`
-- [x] Refactor \Azimo\Apple\Api\Enum\CryptographicAlgorithmEnum, so algorithms are fetched dynamically from https://appleid.apple.com/auth/keys
+- [ ] Refactor \Azimo\Apple\Api\Enum\CryptographicAlgorithmEnum, so algorithms are fetched dynamically from https://appleid.apple.com/auth/keys
+- [ ] Create contribution guide
 
 ## Miscellaneous
 
