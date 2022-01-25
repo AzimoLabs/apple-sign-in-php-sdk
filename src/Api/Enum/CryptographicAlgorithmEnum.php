@@ -10,12 +10,15 @@ final class CryptographicAlgorithmEnum
 
     public const KID_YUYXOY = 'YuyXoY';
 
+    public const KID_W6WCOKB = 'W6WcOKB';
+
     public static function supportedAlgorithms(): array
     {
         return [
             self::KID_86D88KF,
             self::KID_EXAUNML,
             self::KID_YUYXOY,
+            self::KID_W6WCOKB,
         ];
     }
 
