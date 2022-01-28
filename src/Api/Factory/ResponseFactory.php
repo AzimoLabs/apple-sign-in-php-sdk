@@ -56,15 +56,5 @@ class ResponseFactory
                 )
             );
         }
-
-        if (!CryptographicAlgorithmEnum::isSupported($authKey['kid'])) {
-            throw new UnsupportedCryptographicAlgorithmException(
-                sprintf(
-                    'Cryptographic algorithm `%s` is not supported. Supported algorithms: `%s`',
-                    $authKey['kid'],
-                    implode(',', CryptographicAlgorithmEnum::supportedAlgorithms())
-                )
-            );
-        }
     }
 }
