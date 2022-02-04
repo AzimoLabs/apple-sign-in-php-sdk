@@ -113,27 +113,6 @@ final class ResponseFactoryTest extends MockeryTestCase
         ];
     }
 
-    public function testIfCreateFromArraySkipsCreatingJsonWebKeySetWhenKidIsNotSupported(): void
-    {
-        self::assertEquals(
-            new JsonWebKeySetCollection([]),
-            $this->responseFactory->createFromArray(
-                [
-                    'keys' => [
-                        [
-                            'kty' => 'RSA',
-                            'kid' => 'bar',
-                            'use' => 'sig',
-                            'alg' => 'RS256',
-                            'n'   => 'foo',
-                            'e'   => 'AQAB',
-                        ],
-                    ],
-                ]
-            )
-        );
-    }
-
     public function testIfCreateFromArrayReturnsExpectedJsonWebKeySetCollection(): void
     {
         $responseBody = [
