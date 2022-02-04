@@ -2,7 +2,6 @@
 
 namespace Azimo\Apple\Api\Factory;
 
-use Azimo\Apple\Api\Enum\CryptographicAlgorithmEnum;
 use Azimo\Apple\Api\Exception\ResponseValidationException;
 use Azimo\Apple\Api\Exception\UnsupportedCryptographicAlgorithmException;
 use Azimo\Apple\Api\Response\JsonWebKeySet;
