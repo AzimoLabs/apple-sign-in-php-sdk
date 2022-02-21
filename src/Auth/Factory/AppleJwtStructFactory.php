@@ -21,7 +21,7 @@ class AppleJwtStructFactory
                 $token->getClaim('exp'),
                 $token->getClaim('iat'),
                 $token->getClaim('sub'),
-                $token->getClaim('c_hash'),
+                $token->getClaim('c_hash', ''),
                 $token->getClaim('email', ''),
                 // For some reason Apple API returns boolean flag as a string
                 (string) $token->getClaim('email_verified', 'false') === 'true',
