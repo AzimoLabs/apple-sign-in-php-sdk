@@ -21,6 +21,8 @@ Recommended and easiest way to installing library is through [Composer](https://
 | `> 7.4 < 8.0`| `1.5.x` |
 | `> 8.0 & ^7.4`| `2.0.x` |
 
+Versioning follows [semver](https://semver.org/) standards
+
 ## How it works
 
 This description assumes that you already have
