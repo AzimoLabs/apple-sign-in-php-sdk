@@ -116,28 +116,6 @@ class ResponseFactoryTest extends MockeryTestCase
         ];
     }
 
-    public function testIfCreateFromArrayThrowsUnsupportedCryptographicAlgorithmExceptionWhenKidIsNotSupported(): void
-    {
-        $this->expectException(UnsupportedCryptographicAlgorithmException::class);
-        $this->expectExceptionMessage(
-            'Cryptographic algorithm `bar` is not supported. Supported algorithms: `86D88Kf,eXaunmL`'
-        );
-        $this->responseFactory->createFromArray(
-            [
-                'keys' => [
-                    [
-                        'kty' => 'RSA',
-                        'kid' => 'bar',
-                        'use' => 'sig',
-                        'alg' => 'RS256',
-                        'n'   => 'foo',
-                        'e'   => 'AQAB',
-                    ],
-                ],
-            ]
-        );
-    }
-
     public function testIfCreateFromArrayReturnsExpectedJsonWebKeySetCollection(): void
     {
         $responseBody = [
