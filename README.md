@@ -44,9 +44,6 @@ examples are shown below.
 Once you have cloned repository, make sure that composer dependencies are installed running `composer install -o`.
 
 ```php
-$validationData = new ValidationData();
-$validationData->setIssuer('https://appleid.apple.com');
-$validationData->setAudience('com.azimo');
 
 $appleJwtFetchingService = new Auth\Service\AppleJwtFetchingService(
             new Auth\Jwt\JwtParser(new \Lcobucci\JWT\Token\Parser(new \Lcobucci\JWT\Encoding\JoseEncoder())),
