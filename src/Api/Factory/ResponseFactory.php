@@ -2,7 +2,6 @@
 
 namespace Azimo\Apple\Api\Factory;
 
-use Azimo\Apple\Api\Enum\CryptographicAlgorithmEnum;
 use Azimo\Apple\Api\Exception\ResponseValidationException;
 use Azimo\Apple\Api\Exception\UnsupportedCryptographicAlgorithmException;
 use Azimo\Apple\Api\Response\JsonWebKeySet;
@@ -53,16 +52,6 @@ class ResponseFactory
                 sprintf(
                     'One or more of required fields `kty`,`kid`,`use`,`alg`,`n`,`e` are missing in auth key `%s`',
                     implode(',', array_keys($authKey))
-                )
-            );
-        }
-
-        if (!CryptographicAlgorithmEnum::isSupported($authKey['kid'])) {
-            throw new UnsupportedCryptographicAlgorithmException(
-                sprintf(
-                    'Cryptographic algorithm `%s` is not supported. Supported algorithms: `%s`',
-                    $authKey['kid'],
-                    implode(',', CryptographicAlgorithmEnum::supportedAlgorithms())
                 )
             );
         }
