@@ -1,7 +1,5 @@
 # Sign-in with Apple SDK
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/AzimoLabs/apple-sign-in-php-sdk/test.yml?branch=master&style=flat-square)](https://github.com/AzimoLabs/apple-sign-in-php-sdk/actions?query=workflow%3ACI)
-
 ## Installation
 
 Recommended and easiest way to installing library is through [Composer](https://getcomposer.org/).
