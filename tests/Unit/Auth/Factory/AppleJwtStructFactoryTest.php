@@ -61,7 +61,7 @@ final class AppleJwtStructFactoryTest extends MockeryTestCase
                             'nonce_supported'  => true
                         ], ''
                     ),
-                    Token\Signature::fromEmptyData()
+                    new Token\Signature('', '')
                 )
             )
         );

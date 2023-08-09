@@ -12,12 +12,13 @@ Recommended and easiest way to installing library is through [Composer](https://
 * OpenSSL Extension
 
 ## PHP support
-|PHP version|Library version|
-|---|---|
-|`5.x`|`NOT SUPPORTED`|
-| `> 7.0 <= 7.3`| `1.4.x` |
-| `>= 7.4 < 8.0`| `1.5.x` |
-| `>= 8.0 & ^7.4`| `2.0.x` |
+| PHP version     | Library version |
+|-----------------|-----------------|
+| `5.x`           | `NOT SUPPORTED` |
+| `> 7.0 <= 7.3`  | `1.4.x`         |
+| `>= 7.4 < 8.0`  | `1.5.x`         |
+| `>= 8.0 & ^7.4` | `2.0.x`         |
+| `>= 8.1`        | `3.0.x`         |
 
 Versioning follows [semver](https://semver.org/) standard.
 
