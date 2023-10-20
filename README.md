@@ -92,7 +92,7 @@ OK (1 test, 1 assertion)
 
 ## Todo
 
-It is welcome to open a pull request with a fix of any issue:
+It is welcome to open a pull request with a fix for any issue:
 
 - [x] Upgrade `phpseclib/phpseclib` to version `3.0.7`
 - [x] Upgrade `lcobucci/jwt` to version `4.x`. Reported
