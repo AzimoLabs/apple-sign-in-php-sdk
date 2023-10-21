@@ -1,5 +1,5 @@
 {
-  "name": "azimolabs/apple-sign-in-php-sdk",
+  "name": "guanhui07/apple-sign-in-php-sdk",
   "description": "Library to verify and validate Apple IdentityToken and authenticate a user with Apple ID.",
   "type": "library",
   "license": "MIT",
